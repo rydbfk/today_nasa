@@ -17,4 +17,5 @@ with open("README.md", "w", encoding="utf-8") as f:
     f.write(f"## 📅 {today}\n\n")
     f.write(f"**{data.get('title', 'No Title')}**\n\n")
     f.write(f"{data.get('explanation', 'No Description')}\n\n")
-    f.write(f"![APOD]({data.get('url', '')})\n")
+    f.write(f"![APOD]({data.get('url', '')})\n\n")
+    f.write(f"_Last updated: {datetime.datetime.now()}_\n")
