@@ -43,9 +43,10 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
 
-          git fetch origin main
-          git rebase origin/main
+          git pull --rebase origin main    
 
           git add README.md
           git commit -m "NASA APOD 자동 업데이트" || echo "No changes"
           git push origin main
+
+

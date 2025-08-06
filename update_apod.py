@@ -8,6 +8,8 @@ URL = f"https://api.nasa.gov/planetary/apod?api_key={API_KEY}"
 response = requests.get(URL)
 data = response.json()
 
+print(data)
+
 today = datetime.date.today().isoformat()
 
 with open("README.md", "w", encoding="utf-8") as f:
