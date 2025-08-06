@@ -38,7 +38,7 @@ jobs:
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git pull --rebase origin main  # 💡 이 줄 추가!
+        git pull --rebase origin main
         git add README.md
         git commit -m "NASA APOD 자동 업데이트" || echo "No changes"
         git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/rydbfk/today_nasa.git
