@@ -13,32 +13,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: true   # ✅ 푸시 에러 해결용
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Install dependencies
-      run: pip install requests
+      - name: Install dependencies
+        run: pip install requests
 
-    - name: Run APOD script
-      env:
-        NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
-      run: |
-        echo "Replacing API Key..."
-        sed -i "s/YOUR_NASA_API_KEY/$NASA_API_KEY/" update_apod.py
-        python update_apod.py
+      - name: Run APOD script
+        env:
+          NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+        run: |
+          echo "Replacing API Key..."
+          sed -i "s/YOUR_NASA_API_KEY/$NASA_API_KEY/" update_apod.py
+          python update_apod.py
 
-    - name: Commit and push if changed
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git pull --rebase origin main
-        git add README.md
-        git commit -m "NASA APOD 자동 업데이트" || echo "No changes"
-        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/rydbfk/today_nasa.git
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main
+          git add README.md
+          git commit -m "NASA APOD 자동 업데이트" || echo "No changes"
+          git push
