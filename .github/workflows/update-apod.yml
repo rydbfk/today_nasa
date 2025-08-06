@@ -35,6 +35,9 @@ jobs:
           sed -i "s/YOUR_NASA_API_KEY/$NASA_API_KEY/" update_apod.py
           python update_apod.py
 
+      - name: Show diff
+        run: git diff
+        
       - name: Commit and push if changed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
