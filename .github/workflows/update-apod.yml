@@ -30,23 +30,23 @@ jobs:
       - name: Run APOD script
         env:
           NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
-        run: python update_apod.py
+        run: |
+          echo "Replacing API Key..."
+          sed -i "s/YOUR_NASA_API_KEY/$NASA_API_KEY/" update_apod.py
+          python update_apod.py
 
-      - name: Show diff
-        run: git diff
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Pull latest changes
+        run: git pull origin main --rebase
 
       - name: Commit and push if changed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
-
-          git pull --rebase origin main    
-
           git add README.md
           git commit -m "NASA APOD 자동 업데이트" || echo "No changes"
-          git push origin main
-
-
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
